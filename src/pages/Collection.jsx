@@ -7,7 +7,7 @@ import ProductItem from "../components/Productitem";
 import Product from "./Product";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
 
@@ -46,6 +46,12 @@ const Collection = () => {
       );
     }
 
+    if(showSearch && search){
+      
+      productsCopy = productsCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+
+    }
+
     setFilterProducts(productsCopy);
   };
 
@@ -69,7 +75,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory]);
+  }, [category, subCategory,search,showSearch]);
 
   useEffect(() => {
     sortProduct();
@@ -94,7 +100,7 @@ const Collection = () => {
         <div
           className={`border  border-gray-300 pl-5 py-3 mt-6 ${
             showFilter ? "" : "hidden"
-          }  sm:block`}
+          }  sm:block `}
         >
           <p className=" mb-3 text-sm font-medium ">CATEGORIES</p>
           <div className=" flex flex-col gap-2 text-sm  font-light text-gray-700">
